@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="كوغنيفيا — منصة تعليمية تفاعلية لدعم الانتباه والذاكرة واللغة والتفكير.">
+<title>COGNIVIA | كوغنيفيا</title>
+<style>
+:root{color-scheme:dark;--bg:#06101f;--panel:#0c1b2e;--panel2:#10243a;--line:#1d3a56;--text:#eef6ff;--muted:#9cb1c8;--cyan:#59d7ff;--blue:#2d8cff;--silver:#c7d4e2;--good:#65e6b2;--gold:#f4cc77}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -10%,#12365a 0,transparent 42%),linear-gradient(145deg,#06101f,#08182a 55%,#071321);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.top{max-width:1180px;margin:auto;padding:22px 22px 8px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:13px}.mark{width:46px;height:46px;border-radius:15px;border:1px solid #75dfff88;background:linear-gradient(145deg,#163d60,#0b1b30);display:grid;place-items:center;box-shadow:0 0 28px #37bfff22;color:var(--cyan);font-size:23px;font-weight:bold}.brand h1{font-size:19px;letter-spacing:2px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.pill{border:1px solid var(--line);background:#0c1d30;border-radius:999px;padding:9px 14px;color:var(--silver);font-size:12px}
+main{max-width:1180px;margin:auto;padding:16px 22px 56px}.hero{border:1px solid #2a5475;border-radius:24px;padding:28px;background:linear-gradient(110deg,#102d49dd,#0a1b2ddd);position:relative;overflow:hidden;box-shadow:0 18px 55px #0004}.hero:after{content:"";position:absolute;inset:0;background-image:linear-gradient(#69d7ff0a 1px,transparent 1px),linear-gradient(90deg,#69d7ff0a 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(90deg,transparent,#000);pointer-events:none}.hero-content{position:relative;z-index:1;max-width:690px}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:1.4px}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.35;margin:12px 0}.hero p{color:#b6c8da;line-height:1.9;margin:0 0 20px}.primary{border:0;border-radius:12px;padding:12px 19px;background:linear-gradient(110deg,#48cafa,#398df5);color:#041321;font-weight:bold;box-shadow:0 7px 24px #2e9ee933}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 26px}.stat,.card,.gamebox{background:linear-gradient(145deg,#0d2035,#0a192b);border:1px solid var(--line);border-radius:17px}.stat{padding:15px 18px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:8px;color:var(--silver)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 14px}.section-head h3{margin:0;font-size:19px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.filter{border:1px solid var(--line);background:#0a1a2b;color:var(--muted);padding:8px 13px;border-radius:999px;font-size:12px}.filter.active{background:#143955;color:var(--cyan);border-color:#34779a}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{padding:17px;min-height:166px;display:flex;flex-direction:column;transition:.2s}.card:hover{transform:translateY(-3px);border-color:#397da4}.symbol{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#123451;color:var(--cyan);font-size:20px}.card h4{margin:13px 0 6px;font-size:15px}.card p{color:var(--muted);font-size:12px;line-height:1.7;margin:0 0 14px}.card button{margin-top:auto;align-self:flex-start;background:transparent;border:1px solid #37617e;color:var(--cyan);border-radius:9px;padding:8px 12px;font-size:12px}.lower{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:20px}.panel{padding:18px}.panel h3{margin:0 0 14px;font-size:16px}.progress{height:8px;background:#1a3047;border-radius:99px;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#43c6ed,#438df5);width:0%}.muted{color:var(--muted);font-size:12px;line-height:1.8}.gamebox{margin-top:18px;padding:20px;display:none}.gamebox.show{display:block}.game-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.game-top h3{margin:0}.close{border:1px solid var(--line);background:#10243a;color:var(--silver);border-radius:9px;padding:7px 11px}.playarea{min-height:170px;display:grid;place-items:center;text-align:center;padding:18px 0}.answers{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.answer{min-width:64px;padding:13px 17px;border:1px solid #2e5878;border-radius:12px;background:#102943;color:var(--text);font-size:19px}.answer:hover{border-color:var(--cyan)}.feedback{min-height:25px;text-align:center;color:var(--good);font-size:13px}.footer{margin-top:32px;text-align:center;color:#7189a3;font-size:11px;line-height:1.8}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lower{grid-template-columns:1fr}}@media(max-width:520px){.top{padding:16px}.top .pill{display:none}main{padding:12px 14px 40px}.hero{padding:22px 18px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:20px}.grid{gap:9px}.card{padding:13px;min-height:176px}.card h4{font-size:14px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand"><div class="mark">C</div><div><h1>COGNIVIA</h1><p>منصة تعليمية ذكية متكاملة</p></div></div>
+ <div class="pill">مساحة تعلم آمنة وتفاعلية</div>
+</header>
+<main>
+ <section class="hero">
+  <div class="hero-content"><div class="eyebrow">LEARN • PLAY • GROW</div><h2>كل خطوة صغيرة تصنع تقدماً كبيراً</h2><p>أنشطة قصيرة وتفاعلية تساعد الطفل على تدريب الذاكرة والانتباه واللغة والتفكير، مع متابعة التقدم بطريقة بسيطة ومشجعة.</p><button class="primary" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth'})">ابدأ رحلة التعلم</button></div>
+ </section>
+ <section class="stats" aria-label="إحصاءات التقدم">
+  <div class="stat"><small>مجموع النقاط</small><strong id="points">0</strong></div>
+  <div class="stat"><small>الأنشطة المكتملة</small><strong id="completed">0</strong></div>
+  <div class="stat"><small>سلسلة الأيام</small><strong id="streak">0</strong></div>
+ </section>
+ <section id="activities">
+  <div class="section-head"><div><h3>مركز الأنشطة</h3><p>اختر مهارة وابدأ بتحدٍّ قصير</p></div><span class="pill">4 مهارات</span></div>
+  <div class="filters">
+   <button class="filter active" data-filter="all">الكل</button><button class="filter" data-filter="memory">الذاكرة</button><button class="filter" data-filter="focus">الانتباه</button><button class="filter" data-filter="language">اللغة</button><button class="filter" data-filter="thinking">التفكير</button>
+  </div>
+  <div class="grid">
+   <article class="card" data-category="memory"><div class="symbol">◈</div><h4>ذاكرة الأرقام</h4><p>تذكّر تسلسل الأرقام ثم أعد ترتيبه بشكل صحيح.</p><button onclick="startGame('sequence')">ابدأ النشاط</button></article>
+   <article class="card" data-category="memory"><div class="symbol">▦</div><h4>بطاقات الذاكرة</h4><p>اعثر على الأزواج المتطابقة من البطاقات.</p><button onclick="startGame('memory')">ابدأ النشاط</button></article>
+   <article class="card" data-category="focus"><div class="symbol">◎</div><h4>البحث عن الرمز</h4><p>ركّز جيداً واختر الرمز المختلف بين الخيارات.</p><button onclick="startGame('focus')">ابدأ النشاط</button></article>
+   <article class="card" data-category="language"><div class="symbol">أ</div><h4>تمييز الحروف</h4><p>تعرّف على الحرف المطلوب بين مجموعة من الحروف.</p><button onclick="startGame('letters')">ابدأ النشاط</button></article>
+   <article class="card" data-category="thinking"><div class="symbol">＋</div><h4>حساب سريع</h4><p>حل مسائل جمع بسيطة مع خيارات متعددة.</p><button onclick="startGame('math')">ابدأ النشاط</button></article>
+   <article class="card" data-category="language"><div class="symbol">ك</div><h4>الكلمة المناسبة</h4><p>اختر الكلمة التي تكمل الجملة بشكل صحيح.</p><button onclick="startGame('words')">ابدأ النشاط</button></article>
+  </div>
+ </section>
+ <section class="gamebox" id="game">
+  <div class="game-top"><h3 id="gameTitle">النشاط</h3><button class="close" onclick="closeGame()">إغلاق</button></div>
+  <div class="playarea" id="playarea"></div><div class="feedback" id="feedback" aria-live="polite"></div>
+ </section>
+ <section class="lower">
+  <div class="panel card"><h3>تقدمك اليوم</h3><div class="muted" id="dailyText">أكمل نشاطاً واحداً لبدء تسجيل تقدمك اليوم.</div><div class="progress"><span id="progressBar"></span></div><div class="muted" id="progressLabel">0 من 3 أنشطة اليوم</div></div>
+  <div class="panel card"><h3>رسالة لولي الأمر</h3><p class="muted">يمكن مراجعة النقاط والأنشطة المكتملة من هذا الجهاز. صُممت الأنشطة للتدريب والممارسة، ولا تمثل اختباراً تشخيصياً أو تقييماً طبياً.</p></div>
+ </section>
+ <div class="footer">COGNIVIA © 2026 · نتعلم بخطوات صغيرة<br>هذه النسخة تحفظ بيانات التقدم محلياً في المتصفح فقط.</div>
+</main>
+<script>
+const KEY='cognivia_progress_v1';
+let state=JSON.parse(localStorage.getItem(KEY)||'{"points":0,"completed":0,"days":{},"lastDay":""}');
+let activeGame='',round=0,sequence=[],pairs=[],flipped=[],matched=0;
+const today=new Date().toISOString().slice(0,10);
+function save(){localStorage.setItem(KEY,JSON.stringify(state));renderStats()}
+function renderStats(){
+ document.getElementById('points').textContent=state.points;
+ document.getElementById('completed').textContent=state.completed;
+ const days=Object.keys(state.days||{}).sort();let streak=0,check=new Date();
+ while(state.days[check.toISOString().slice(0,10)]){streak++;check.setDate(check.getDate()-1)}
+ document.getElementById('streak').textContent=streak;
+ const n=state.days[today]||0;document.getElementById('progressBar').style.width=Math.min(100,n/3*100)+'%';
+ document.getElementById('progressLabel').textContent=n+' من 3 أنشطة اليوم';
+ document.getElementById('dailyText').textContent=n>=3?'أحسنت! أنجزت تحدي اليوم.':n===0?'أكمل نشاطاً واحداً لبدء تسجيل تقدمك اليوم.':'أحسنت، واصل حتى تكمل تحدي اليوم.';
+}
+renderStats();
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.card[data-category]').forEach(c=>c.style.display=b.dataset.filter==='all'||c.dataset.category===b.dataset.filter?'flex':'none')}));
+function startGame(type){activeGame=type;round=0;document.getElementById('game').classList.add('show');document.getElementById('feedback').textContent='';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'center'});nextRound()}
+function closeGame(){document.getElementById('game').classList.remove('show');activeGame=''}
+function title(t){document.getElementById('gameTitle').textContent=t}
+function area(html){document.getElementById('playarea').innerHTML=html}
+function choices(items,correct,after){area('<div><p class="muted" style="margin-bottom:18px">اختر الإجابة الصحيحة</p><div class="answers">'+items.map(x=>'<button class="answer" data-v="'+String(x).replace(/"/g,'&quot;')+'">'+x+'</button>').join('')+'</div></div>');document.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{if(String(b.dataset.v)===String(correct)){document.getElementById('feedback').textContent='إجابة صحيحة! أحسنت.';after()}else{document.getElementById('feedback').textContent='حاول مرة أخرى، خذ وقتك.'}})}
+function complete(){state.points+=10;state.completed++;state.days[today]=(state.days[today]||0)+1;save();document.getElementById('feedback').textContent='رائع! حصلت على 10 نقاط.';setTimeout(()=>{if(activeGame)nextRound()},950)}
+function nextRound(){
+ round++;
+ if(activeGame==='sequence'){title('ذاكرة الأرقام');const nums=Array.from({length:4},()=>Math.floor(Math.random()*8)+1);sequence=nums;area('<div><p class="muted">احفظ هذا التسلسل</p><div style="font-size:36px;letter-spacing:12px;color:var(--cyan)">'+nums.join(' ')+'</div><p class="muted">سيختفي بعد لحظات…</p></div>');setTimeout(()=>{if(activeGame!=='sequence')return;area('<div><p class="muted">اكتب الأرقام بالترتيب كما ظهرت</p><input id="seqInput" inputmode="numeric" maxlength="4" placeholder="مثال: 1234" style="background:#071727;border:1px solid #37617e;border-radius:10px;padding:13px;color:white;text-align:center;font-size:22px;width:170px"><br><button class="primary" style="margin-top:12px" onclick="checkSeq()">تحقق</button></div>')},2200)}
+ else if(activeGame==='letters'){title('تمييز الحروف');const target=['ب','س','م','ر','ن','ل'][Math.floor(Math.random()*6)];const arr=[target,...Array.from({length:5},()=>['ا','ت','ج','ح','د','ذ','ز','ش','ص'][Math.floor(Math.random()*9)])].sort(()=>Math.random()-.5);document.getElementById('playarea').dataset.correct=target;area('<div><p class="muted">اختر الحرف: <b style="font-size:27px;color:var(--cyan)">'+target+'</b></p><div class="answers">'+arr.map(x=>'<button class="answer" onclick="letterPick(this)">'+x+'</button>').join('')+'</div></div>')}
+ else if(activeGame==='math'){title('حساب سريع');const a=Math.floor(Math.random()*9)+1,b=Math.floor(Math.random()*9)+1,c=a+b;choices([c,c+1,c-1,c+2].sort(()=>Math.random()-.5),c,complete);area(document.getElementById('playarea').innerHTML.replace('اختر الإجابة الصحيحة','كم يساوي '+a+' + '+b+'؟'))}
+ else if(activeGame==='words'){title('الكلمة المناسبة');const qs=[['تشرق الشمس في ___','النهار',['النهار','الليل','البحر']],['نشرب الماء من ___','الكأس',['الكأس','الكتاب','الحذاء']],['الطائر يطير في ___','السماء',['السماء','الطاولة','الشارع']]];const q=qs[(round-1)%qs.length];title('الكلمة المناسبة');choices(q[2],q[1],complete);area(document.getElementById('playarea').innerHTML.replace('اختر الإجابة الصحيحة',q[0]))}
+ else if(activeGame==='focus'){title('البحث عن الرمز');const symbols=['◆','◆','◆','◇','◆','◆'].sort(()=>Math.random()-.5);document.getElementById('playarea').dataset.correct='◇';area('<div><p class="muted">اختر الشكل المختلف</p><div class="answers">'+symbols.map(x=>'<button class="answer" onclick="focusPick(this)">'+x+'</button>').join('')+'</div></div>')}
+ else if(activeGame==='memory'){title('بطاقات الذاكرة');if(!pairs.length||matched===4){pairs=['●','▲','■','★', '●','▲','■','★'].sort(()=>Math.random()-.5);flipped=[];matched=0}area('<div><p class="muted">اكشف بطاقتين متطابقتين</p><div class="answers">'+pairs.map((x,i)=>'<button class="answer" style="width:65px;height:60px" data-i="'+i+'" onclick="flipCard(this)">؟</button>').join('')+'</div></div>')}
+}
+function checkSeq(){const v=document.getElementById('seqInput').value;if(v===sequence.join(''))complete();else document.getElementById('feedback').textContent='ليس تماماً. جرّب مرة أخرى.'}
+function letterPick(b){if(b.textContent===document.getElementById('playarea').dataset.correct)complete();else document.getElementById('feedback').textContent='هذا حرف آخر. حاول مجدداً.'}
+function focusPick(b){if(b.textContent==='◇')complete();else document.getElementById('feedback').textContent='ابحث عن الشكل المختلف.'}
+function flipCard(b){const i=Number(b.dataset.i);if(flipped.length===2||flipped.some(x=>x.i===i)||b.dataset.done)return;b.textContent=pairs[i];flipped.push({i,b});if(flipped.length===2){if(pairs[flipped[0].i]===pairs[flipped[1].i]){flipped.forEach(x=>{x.b.dataset.done='1';x.b.style.borderColor='#65e6b2'});matched++;flipped=[];if(matched===4){document.getElementById('feedback').textContent='أكملت جميع الأزواج!';complete()} }else setTimeout(()=>{flipped.forEach(x=>x.b.textContent='؟');flipped=[]},700)}}
+</script>
+</body>
+</html>
