@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 
 type Activity = { id: string; title: string; description: string; icon: string; skill: string };
 const activities: Activity[] = [
@@ -18,6 +19,18 @@ export default function Home() {
   const [selected, setSelected] = useState<Activity | null>(null);
   const [feedback, setFeedback] = useState("");
   const [round, setRound] = useState(0);
+  const [email, setEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [authMessage, setAuthMessage] = useState("");
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+    if (supabase) {
+      supabase.auth.getSession().then(({ data }) => setUserEmail(data.session?.user.email || ""));
+      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => setUserEmail(session?.user.email || ""));
+      return () => listener.subscription.unsubscribe();
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -26,6 +39,20 @@ export default function Home() {
       setCompleted(Array.isArray(saved.completed) ? saved.completed : []);
     } catch { /* start with clean progress if local data is invalid */ }
   }, []);
+
+  async function sendMagicLink() {
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) { setAuthMessage("أضف مفاتيح Supabase إلى إعدادات الاستضافة لتفعيل الحسابات."); return; }
+    if (!email.trim()) { setAuthMessage("أدخل بريدك الإلكتروني أولاً."); return; }
+    const { error } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { emailRedirectTo: window.location.origin } });
+    setAuthMessage(error ? "تعذّر إرسال رابط الدخول. تحقق من إعدادات Supabase." : "تم إرسال رابط الدخول إلى بريدك الإلكتروني.");
+  }
+
+  async function signOut() {
+    const supabase = getSupabaseBrowserClient();
+    if (supabase) await supabase.auth.signOut();
+    setAuthMessage("تم تسجيل الخروج.");
+  }
 
   function finishActivity(id: string, earned = 10) {
     const next = Array.from(new Set([...completed, id]));
@@ -62,6 +89,21 @@ export default function Home() {
           <h1>كل خطوة صغيرة، تصنع تقدّماً كبيراً.</h1>
           <p>مساحة تعليمية هادئة تساعدك على تدريب الذاكرة والانتباه واللغة والحساب من خلال أنشطة قصيرة وتفاعلية.</p>
         </div>
+      </section>
+
+      <section className="panel" aria-label="حساب المتعلم">
+        <h3>حساب المتعلّم</h3>
+        {userEmail ? (
+          <><p>تم تسجيل الدخول باستخدام {userEmail}</p><button className="action" onClick={signOut}>تسجيل الخروج</button></>
+        ) : (
+          <><p>يمكن تفعيل الدخول بالبريد الإلكتروني بعد ربط مشروع Supabase.</p>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}}>
+              <input aria-label="البريد الإلكتروني" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="البريد الإلكتروني" style={{minWidth:220,flex:1,padding:12,borderRadius:10,border:"1px solid var(--line)",background:"#071a2d",color:"var(--text)"}} />
+              <button className="action" onClick={sendMagicLink}>إرسال رابط الدخول</button>
+            </div>
+          </>
+        )}
+        {authMessage && <p role="status" style={{marginTop:10,color:"var(--cyan)"}}>{authMessage}</p>}
       </section>
 
       <section className="stats" aria-label="ملخص التقدم">
