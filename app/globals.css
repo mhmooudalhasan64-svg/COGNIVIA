@@ -66,3 +66,52 @@
 .daily-symbol{position:relative;box-shadow:inset 0 4px 7px rgba(255,255,255,.8),inset 0 -6px 9px rgba(110,65,50,.16),0 7px 0 rgba(0,0,0,.12),0 12px 18px rgba(0,0,0,.18);transform:rotate(-5deg);text-shadow:0 4px 5px rgba(90,50,50,.2)}
 .hero-mascot,.focus-mascot{box-shadow:inset 0 4px 7px rgba(255,255,255,.9),inset 0 -7px 10px rgba(120,75,40,.13),0 8px 0 rgba(0,0,0,.1),0 14px 22px rgba(0,0,0,.18);text-shadow:0 4px 5px rgba(80,55,40,.18)}
 @media(prefers-reduced-motion:reduce){.activity-card .card-symbol{transition:none}.activity-card:hover .card-symbol{transform:none}}
+
+
+/* Playful tactile answer controls across learning activities */
+.answer-button,.shape-button,.focus-option,.focus-primary,.primary-button,.hero-button{
+  position:relative;isolation:isolate;overflow:hidden;
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease,border-color .16s ease;
+}
+.answer-button,.focus-option{
+  border:1px solid rgba(154,220,246,.28);
+  background:linear-gradient(155deg,#245b7c 0%,#164365 48%,#0d2c49 100%);
+  color:#f3fbff;font-weight:800;
+  box-shadow:inset 0 2px 2px rgba(255,255,255,.22),inset 0 -4px 7px rgba(0,0,0,.2),0 5px 0 #071b2d,0 8px 13px rgba(0,0,0,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+.answer-button:nth-child(4n+1),.focus-option:nth-child(4n+1){background:linear-gradient(155deg,#ffdf9e,#d99542);color:#553512;border-color:#ffe8ba;box-shadow:inset 0 2px 3px rgba(255,255,255,.8),inset 0 -4px 7px rgba(115,66,17,.18),0 5px 0 #8e5b27,0 8px 13px rgba(0,0,0,.18)}
+.answer-button:nth-child(4n+2),.focus-option:nth-child(4n+2){background:linear-gradient(155deg,#a8eee5,#48aaa8);color:#104b50;border-color:#d0fff8;box-shadow:inset 0 2px 3px rgba(255,255,255,.8),inset 0 -4px 7px rgba(12,80,78,.18),0 5px 0 #236e70,0 8px 13px rgba(0,0,0,.18)}
+.answer-button:nth-child(4n+3),.focus-option:nth-child(4n+3){background:linear-gradient(155deg,#d9ceff,#9280dc);color:#382c70;border-color:#eee8ff;box-shadow:inset 0 2px 3px rgba(255,255,255,.8),inset 0 -4px 7px rgba(54,40,115,.18),0 5px 0 #5e4e9c,0 8px 13px rgba(0,0,0,.18)}
+.answer-button:nth-child(4n),.focus-option:nth-child(4n){background:linear-gradient(155deg,#ffcbdc,#df7fa4);color:#6b2945;border-color:#ffe6ef;box-shadow:inset 0 2px 3px rgba(255,255,255,.8),inset 0 -4px 7px rgba(111,38,69,.18),0 5px 0 #984c6b,0 8px 13px rgba(0,0,0,.18)}
+.answer-button:before,.focus-option:before,.focus-primary:before,.primary-button:before,.hero-button:before{
+  content:"";position:absolute;pointer-events:none;inset:3px 10% auto;height:35%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0));opacity:.85;
+}
+.answer-button:hover,.shape-button:hover,.focus-option:not(:disabled):hover,.focus-primary:hover,.primary-button:hover,.hero-button:hover{
+  transform:translateY(-3px);filter:brightness(1.08);
+}
+.answer-button:active,.shape-button:active,.focus-option:not(:disabled):active,.focus-primary:active,.primary-button:active,.hero-button:active{
+  transform:translateY(3px) scale(.98);box-shadow:inset 0 2px 5px rgba(0,0,0,.18),0 1px 0 rgba(0,0,0,.2);
+}
+.focus-option:disabled{cursor:default;opacity:1}
+.focus-option.focus-option-correct{
+  background:linear-gradient(150deg,#b8f5c9,#4ab879)!important;color:#104b2c!important;
+  border-color:#d8ffe2!important;box-shadow:inset 0 2px 4px rgba(255,255,255,.8),0 5px 0 #26764b,0 8px 13px rgba(0,0,0,.18)!important;
+}
+.focus-option.focus-option-wrong{
+  background:linear-gradient(150deg,#ffd0cb,#e47b78)!important;color:#702b2a!important;
+  border-color:#ffe8e5!important;box-shadow:inset 0 2px 4px rgba(255,255,255,.8),0 5px 0 #984b4a,0 8px 13px rgba(0,0,0,.18)!important;
+}
+.shape-button{
+  border:1px solid rgba(133,220,247,.35);
+  box-shadow:inset 0 3px 5px rgba(255,255,255,.18),inset 0 -5px 8px rgba(0,0,0,.2),0 6px 0 #071b2d,0 10px 15px rgba(0,0,0,.2);
+  text-shadow:0 2px 3px rgba(0,0,0,.3);
+}
+.focus-primary,.primary-button,.hero-button{
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.32),inset 0 -4px 7px rgba(0,0,0,.16),0 5px 0 rgba(2,15,28,.65),0 9px 16px rgba(0,0,0,.18);
+}
+@media(prefers-reduced-motion:reduce){
+  .answer-button,.shape-button,.focus-option,.focus-primary,.primary-button,.hero-button{transition:none}
+  .answer-button:hover,.shape-button:hover,.focus-option:not(:disabled):hover,.focus-primary:hover,.primary-button:hover,.hero-button:hover{transform:none}
+}
