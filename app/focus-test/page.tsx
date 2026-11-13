@@ -120,7 +120,7 @@ export default function FocusTestPage() {
         <div className="focus-progress-row"><span>السؤال {index + 1} من {questions.length}</span><span>{Math.round(index / questions.length * 100)}% مكتمل</span></div>
         <div className="focus-progress-track"><span style={{ width: `${index / questions.length * 100}%` }} /></div>
         <section className="focus-question-card" aria-live="polite">
-          <div className="focus-question-meta"><span>{question.skill}</span><span>المحاولة {Math.min(attemptNumber, 2)} من 2</span></div>
+          <div className="focus-question-meta"><span>{question.skill}</span><span>المحاولة {Math.min(Math.max(attempts.length, 1), 2)} من 2</span></div>
           <h2>{question.prompt}</h2><p className="focus-instruction">{question.hint}</p>
           <div className="focus-options">{question.options.map((option) => <button key={option} className="focus-option" onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
           <p className="focus-feedback" role="status">{feedback || "اختر إجابة واحدة عندما تكون مستعداً."}</p>
