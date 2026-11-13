@@ -29,6 +29,7 @@ export default function FocusTestPage() {
   const startIso = useRef(new Date().toISOString());
   const sessionId = useRef(newSessionId());
   const saved = useRef(false);
+  const pendingSession = useRef<FocusSession | null>(null);
   const question = questions[index];
   const attemptNumber = attempts.length + 1;
 
@@ -56,20 +57,24 @@ export default function FocusTestPage() {
 
   function persist(finalAnswers: FocusAnswer[]) {
     if (saved.current) return;
-    const first = finalAnswers.map((item) => item.attempts[0]).filter(Boolean);
-    const correct = first.filter((item) => item.isCorrect).length;
-    const times = first.map((item) => item.reactionTimeMs).filter(Number.isFinite);
-    const completed: FocusSession = {
-      id: sessionId.current, startedAt: startIso.current, completedAt: new Date().toISOString(),
-      durationMs: Math.max(0, Math.round(performance.now() - sessionTimer.current)),
-      correctFirstTry: correct, questionCount: finalAnswers.length,
-      accuracy: finalAnswers.length ? Math.round(correct / finalAnswers.length * 100) : 0,
-      averageReactionTimeMs: times.length ? Math.round(times.reduce((sum, n) => sum + n, 0) / times.length) : 0,
-      answers: finalAnswers,
-    };
+    const completed = pendingSession.current ?? (() => {
+      const first = finalAnswers.map((item) => item.attempts[0]).filter(Boolean);
+      const correct = first.filter((item) => item.isCorrect).length;
+      const times = first.map((item) => item.reactionTimeMs).filter(Number.isFinite);
+      return {
+        id: sessionId.current, startedAt: startIso.current, completedAt: new Date().toISOString(),
+        durationMs: Math.max(0, Math.round(performance.now() - sessionTimer.current)),
+        correctFirstTry: correct, questionCount: finalAnswers.length,
+        accuracy: finalAnswers.length ? Math.round(correct / finalAnswers.length * 100) : 0,
+        averageReactionTimeMs: times.length ? Math.round(times.reduce((sum, n) => sum + n, 0) / times.length) : 0,
+        answers: finalAnswers,
+      } satisfies FocusSession;
+    })();
+    pendingSession.current = completed;
     try {
       if (!saveFocusSession(window.localStorage, completed)) throw new Error("duplicate");
       saved.current = true;
+      pendingSession.current = null;
       setSession(completed);
       setSaveError("");
     } catch {
@@ -92,7 +97,7 @@ export default function FocusTestPage() {
 
   function restart() {
     setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false);
-    setSession(null); setSaveError(""); saved.current = false; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
+    setSession(null); setSaveError(""); saved.current = false; pendingSession.current = null; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
   }
 
   return <main className="focus-shell" dir="rtl">
@@ -124,7 +129,7 @@ export default function FocusTestPage() {
         </div>
         <p className="focus-feedback">تم حفظ نتائجك على هذا الجهاز.</p><button className="focus-primary" onClick={restart}>بدء جلسة جديدة</button>
       </section>}
-      {saveError && <p className="focus-save-error" role="alert">{saveError}<button onClick={() => persist([...answers, { questionId: question.id, skill: question.skill, correctAnswer: question.correct, attempts }])}>إعادة الحفظ</button></p>}
+      {saveError && <p className="focus-save-error" role="alert">{saveError}<button onClick={() => pendingSession.current && persist(pendingSession.current.answers)}>إعادة الحفظ</button></p>}
     </section>
     <footer className="focus-footer"><span>COGNIVIA © 2026</span><span>تدريب تعليمي غير تشخيصي</span></footer>
   </main>;
