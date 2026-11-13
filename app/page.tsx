@@ -19,6 +19,8 @@ export default function Home() {
   const [completed,setCompleted] = useState<string[]>([]);
   const [selected,setSelected] = useState<Activity|null>(null);
   const [feedback,setFeedback] = useState("");
+  const [selectedChoice,setSelectedChoice] = useState<string | null>(null);
+  const [choiceCorrect,setChoiceCorrect] = useState<boolean | null>(null);
   const [round,setRound] = useState(0);
   const [category,setCategory] = useState("الكل");
   const [email,setEmail] = useState("");
@@ -66,9 +68,9 @@ export default function Home() {
     setFeedback("أحسنت! إجابة صحيحة، أُضيفت النقاط إلى رصيدك.");
   }
   function openActivity(a:Activity){
-    setSelected(a);setFeedback("");setRound(v=>v+1);setMemoryShown(true);
+    setSelected(a);setFeedback("");setSelectedChoice(null);setChoiceCorrect(null);setRound(v=>v+1);setMemoryShown(true);
   }
-  function backToDashboard(){setSelected(null);setFeedback("");}
+  function backToDashboard(){setSelected(null);setFeedback("");setSelectedChoice(null);setChoiceCorrect(null);}
 
   return <main className="app-shell" dir="rtl">
     <aside className="sidebar">
@@ -133,14 +135,14 @@ export default function Home() {
             {memoryShown?<div className="number-sequence">{currentSequence.map((n,i)=><span key={i}>{n}</span>)}</div>:<div className="number-sequence hidden-sequence">؟　؟　؟</div>}
             <button className="primary-button" onClick={()=>setMemoryShown(v=>!v)}>{memoryShown?"إخفاء الأرقام":"إظهار الأرقام"}</button>
             <div className="question-label">ما الرقم الموجود في المنتصف؟</div>
-            <div className="answer-row">{["1","2","3","4","7","8"].map(v=><button className="answer-button" key={v} onClick={()=>v===memoryAnswer?finishActivity("memory"):setFeedback("حاول مجدداً. تذكّر الرقم الأوسط في التسلسل.")}>{v}</button>)}</div>
+            <div className="answer-row">{["1","2","3","4","7","8"].map(v=><button className={`answer-button${selectedChoice===v?(choiceCorrect?" answer-correct":" answer-wrong"):""}`} key={v} onClick={()=>{setSelectedChoice(v);setChoiceCorrect(v===memoryAnswer);v===memoryAnswer?finishActivity("memory"):setFeedback("حاول مجدداً. تذكّر الرقم الأوسط في التسلسل.");}}>{v}</button>)}</div>
           </>:selected.id==="focus"?<>
             <div className="stage-illustration" aria-hidden="true">🔍 <span>✧</span></div><div className="stage-kicker">VISUAL ATTENTION</div><h2>اكتشف الشكل المختلف</h2><p>اختر الشكل الذي يختلف عن بقية الأشكال.</p>
-            <div className="shape-row">{["○","○","○","◇","○","○"].map((v,i)=><button key={i} className="shape-button" onClick={()=>i===3?finishActivity("focus"):setFeedback("هذا الشكل يشبه البقية. تابع البحث.")}>{v}</button>)}</div>
+            <div className="shape-row">{["○","○","○","◇","○","○"].map((v,i)=><button key={i} className={`shape-button${selectedChoice===String(i)?(choiceCorrect?" answer-correct":" answer-wrong"):""}`} onClick={()=>{setSelectedChoice(String(i));setChoiceCorrect(i===3);i===3?finishActivity("focus"):setFeedback("هذا الشكل يشبه البقية. تابع البحث.");}}>{v}</button>)}</div>
           </>:<>
             <div className="stage-illustration" aria-hidden="true">🎨 <span>✦</span></div><div className="stage-kicker">INTERACTIVE EXERCISE</div><h2>{selected.id==="math"?"حل العملية الحسابية":selected.id==="letters"?"اختر الحرف المطلوب":selected.id==="words"?"اختر المعنى الصحيح":"أنجز المهمة اليومية"}</h2>
             <p>{selected.id==="math"?"كم يساوي 4 + 4؟":selected.id==="letters"?"اختر حرف (ت) من بين الحروف التالية.":selected.id==="words"?"ما الكلمة التي تعاكس معنى «حزن»؟":"أكمل التحدي اليومي لتحصل على نقاط إضافية."}</p>
-            <div className="answer-row">{(selected.id==="math"?["7","8","9","10"]:selected.id==="letters"?["ب","ت","ث","ن"]:selected.id==="words"?["فرح","حزن","سرعة","هدوء"]:["ابدأ التحدي"]).map(v=><button key={v} className="answer-button" onClick={()=>{const ok=selected.id==="math"?v==="8":selected.id==="letters"?v==="ت":selected.id==="words"?v==="فرح":true;ok?finishActivity(selected.id,selected.id==="daily"?15:10):setFeedback("ليست الإجابة الصحيحة. خذ وقتك وحاول مجدداً.");}}>{v}</button>)}</div>
+            <div className="answer-row">{(selected.id==="math"?["7","8","9","10"]:selected.id==="letters"?["ب","ت","ث","ن"]:selected.id==="words"?["فرح","حزن","سرعة","هدوء"]:["ابدأ التحدي"]).map(v=><button key={v} className={`answer-button${selectedChoice===v?(choiceCorrect?" answer-correct":" answer-wrong"):""}`} onClick={()=>{const ok=selected.id==="math"?v==="8":selected.id==="letters"?v==="ت":selected.id==="words"?v==="فرح":true;setSelectedChoice(v);setChoiceCorrect(ok);ok?finishActivity(selected.id,selected.id==="daily"?15:10):setFeedback("ليست الإجابة الصحيحة. خذ وقتك وحاول مجدداً.");}}>{v}</button>)}</div>
           </>}
           <div className="feedback-message" role="status">{feedback}</div>
         </div>
