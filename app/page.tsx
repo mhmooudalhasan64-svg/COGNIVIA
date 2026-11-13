@@ -78,6 +78,7 @@ export default function Home() {
       <button className="side-link" onClick={()=>{setCategory("الكل");document.getElementById("activities")?.scrollIntoView({behavior:"smooth"});}}><span>▦</span> الأنشطة التعليمية</button>
       <button className="side-link" onClick={()=>{setCategory("تحديات");document.getElementById("activities")?.scrollIntoView({behavior:"smooth"});}}><span>✦</span> التحديات اليومية</button>
       <button className="side-link" onClick={()=>setShowAccount(v=>!v)}><span>◉</span> حساب المتعلّم</button>
+      <button className="side-link" onClick={()=>{window.location.href="/parent";}}><span>▤</span> لوحة ولي الأمر</button>
       <div className="sidebar-bottom"><div className="system-indicator"><i/> النظام التعليمي جاهز</div><div className="sidebar-version">COGNIVIA CORE · 0.2</div></div>
     </aside>
 
