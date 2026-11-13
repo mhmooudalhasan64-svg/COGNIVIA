@@ -66,7 +66,7 @@ export default function FocusTestPage() {
   function persist(finalAnswers: FocusAnswer[]) {
     if (saved.current) return;
     const completed = pendingSession.current ?? (() => {
-      const first = finalAnswers.map((item) => item.attempts[0]).filter(Boolean);
+      const first = finalAnswers.map((item) => item.attempts[0]).filter((item) => item !== undefined);
       const correct = first.filter((item) => item.isCorrect).length;
       const times = first.map((item) => item.reactionTimeMs).filter(Number.isFinite);
       return {
