@@ -20,6 +20,7 @@ export default function FocusTestPage() {
   const [attempts, setAttempts] = useState<FocusAnswer["attempts"]>([]);
   const [answers, setAnswers] = useState<FocusAnswer[]>([]);
   const [feedback, setFeedback] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [locked, setLocked] = useState(false);
   const [retry, setRetry] = useState(false);
   const [session, setSession] = useState<FocusSession | null>(null);
@@ -48,6 +49,7 @@ export default function FocusTestPage() {
   function choose(value: string) {
     if (locked || retry || answering.current) return;
     answering.current = true;
+    setSelectedOption(value);
     const attempt = { selectedAnswer: value, isCorrect: value === question.correct, reactionTimeMs: Math.max(0, Math.round(performance.now() - timer.current)), attemptNumber };
     const next = [...attempts, attempt];
     setAttempts(next);
@@ -101,11 +103,12 @@ export default function FocusTestPage() {
     setAttempts([]);
     setLocked(false);
     setRetry(false);
+    setSelectedOption(null);
     setFeedback("");
   }
 
   function restart() {
-    setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false); answering.current = false; advancing.current = false;
+    setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false); setSelectedOption(null); answering.current = false; advancing.current = false;
     setSession(null); setSaveError(""); saved.current = false; pendingSession.current = null; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
   }
 
@@ -122,9 +125,9 @@ export default function FocusTestPage() {
         <section className="focus-question-card" aria-live="polite">
           <div className="focus-question-meta"><span>{question.skill}</span><span>المحاولة {Math.min(Math.max(attempts.length, 1), 2)} من 2</span></div>
           <div className="focus-question-doodle" aria-hidden="true"><span>✦</span><span>●</span><span>◆</span></div><h2>{question.prompt}</h2><p className="focus-instruction">{question.hint}</p>
-          <div className="focus-options">{question.options.map((option) => <button key={option} className="focus-option" onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
+          <div className="focus-options">{question.options.map((option) => <button key={option} className={`focus-option${selectedOption === option ? (attempts[attempts.length - 1]?.isCorrect ? " focus-option-correct" : " focus-option-wrong") : ""}`} onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
           <p className="focus-feedback" role="status">{feedback || "اختر إجابة واحدة عندما تكون مستعداً."}</p>
-          {retry && <button className="focus-primary" onClick={() => { answering.current = false; setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
+          {retry && <button className="focus-primary" onClick={() => { answering.current = false; setSelectedOption(null); setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
           {locked && <button className="focus-primary" onClick={next}>{index === questions.length - 1 ? "إنهاء الجلسة" : "السؤال التالي ←"}</button>}
         </section>
         <p className="focus-privacy-note">تُحفظ النتائج على هذا الجهاز فقط. المؤشرات للتدريب والمتابعة التعليمية وليست تشخيصاً طبياً.</p>
