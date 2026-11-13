@@ -77,6 +77,7 @@ export default function Home() {
       <button className="side-link active" onClick={backToDashboard}><span>⌂</span> الرئيسية</button>
       <button className="side-link" onClick={()=>{setCategory("الكل");document.getElementById("activities")?.scrollIntoView({behavior:"smooth"});}}><span>▦</span> الأنشطة التعليمية</button>
       <button className="side-link" onClick={()=>{setCategory("تحديات");document.getElementById("activities")?.scrollIntoView({behavior:"smooth"});}}><span>✦</span> التحديات اليومية</button>
+      <a className="side-link focus-side-link" href="/focus-test/"><span>◎</span> وضع التركيز</a>
       <button className="side-link" onClick={()=>setShowAccount(v=>!v)}><span>◉</span> حساب المتعلّم</button>
       <button className="side-link" onClick={()=>{window.location.href="/parent";}}><span>▤</span> لوحة ولي الأمر</button>
       <div className="sidebar-bottom"><div className="system-indicator"><i/> النظام التعليمي جاهز</div><div className="sidebar-version">COGNIVIA CORE · 0.2</div></div>
@@ -98,7 +99,7 @@ export default function Home() {
       {!selected?<>
         <section className="welcome-hero">
           <div className="hero-grid"/>
-          <div className="hero-copy"><div className="eyebrow"><span/> SMART EDUCATION PLATFORM</div><h1>أهلاً بك في <em>COGNIVIA</em></h1><p>طوّر مهاراتك، اكتشف قدراتك، وتقدّم خطوة جديدة كل يوم من خلال تجارب تعليمية تفاعلية.</p><button className="hero-button" onClick={()=>document.getElementById("activities")?.scrollIntoView({behavior:"smooth"})}>ابدأ التعلّم <span>←</span></button></div>
+          <div className="hero-copy"><div className="eyebrow"><span/> SMART EDUCATION PLATFORM</div><h1>أهلاً بك في <em>COGNIVIA</em></h1><p>طوّر مهاراتك، اكتشف قدراتك، وتقدّم خطوة جديدة كل يوم من خلال تجارب تعليمية تفاعلية.</p><div className="hero-actions"><button className="hero-button" onClick={()=>document.getElementById("activities")?.scrollIntoView({behavior:"smooth"})}>ابدأ التعلّم <span>←</span></button><a className="hero-button focus-hero-button" href="/focus-test/">وضع التركيز <span>◎</span></a></div></div>
           <div className="hero-orbit"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="orbit-core">C<span>+</span></div><div className="orbit-dot dot-one"/><div className="orbit-dot dot-two"/></div>
           <div className="hero-code">COGNITIVE<br/>DEVELOPMENT<br/><b>ENGINE</b></div>
         </section>
