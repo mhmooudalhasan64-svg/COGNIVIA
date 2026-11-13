@@ -25,13 +25,17 @@ export default function FocusTestPage() {
   const [session, setSession] = useState<FocusSession | null>(null);
   const [saveError, setSaveError] = useState("");
   const timer = useRef(0);
+  const sessionTimer = useRef(0);
   const startIso = useRef(new Date().toISOString());
   const sessionId = useRef(newSessionId());
   const saved = useRef(false);
   const question = questions[index];
   const attemptNumber = attempts.length + 1;
 
-  useEffect(() => { timer.current = performance.now(); }, [index, attempts.length, retry]);
+  useEffect(() => {
+    timer.current = performance.now();
+    if (index === 0 && attempts.length === 0 && answers.length === 0) sessionTimer.current = timer.current;
+  }, [index, attempts.length, retry]);
 
   function choose(value: string) {
     if (locked || retry) return;
@@ -57,7 +61,7 @@ export default function FocusTestPage() {
     const times = first.map((item) => item.reactionTimeMs).filter(Number.isFinite);
     const completed: FocusSession = {
       id: sessionId.current, startedAt: startIso.current, completedAt: new Date().toISOString(),
-      durationMs: Math.max(0, Date.now() - new Date(startIso.current).getTime()),
+      durationMs: Math.max(0, Math.round(performance.now() - sessionTimer.current)),
       correctFirstTry: correct, questionCount: finalAnswers.length,
       accuracy: finalAnswers.length ? Math.round(correct / finalAnswers.length * 100) : 0,
       averageReactionTimeMs: times.length ? Math.round(times.reduce((sum, n) => sum + n, 0) / times.length) : 0,
@@ -88,7 +92,7 @@ export default function FocusTestPage() {
 
   function restart() {
     setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false);
-    setSession(null); setSaveError(""); saved.current = false; startIso.current = new Date().toISOString(); sessionId.current = newSessionId();
+    setSession(null); setSaveError(""); saved.current = false; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
   }
 
   return <main className="focus-shell" dir="rtl">
