@@ -111,17 +111,17 @@ export default function FocusTestPage() {
 
   return <main className="focus-shell" dir="rtl">
     <header className="focus-topbar">
-      <a href="/" className="focus-brand"><span className="focus-brand-mark">C</span><span><b>COGNIVIA</b><small>مساحة التركيز الهادئ</small></span></a>
+      <a href="/" className="focus-brand"><span className="focus-brand-mark">🦉</span><span><b>COGNIVIA</b><small>مساحة التركيز الهادئ</small></span></a>
       <a href="/parent/" className="focus-parent-link">متابعة ولي الأمر</a>
     </header>
     <section className="focus-content">
       {!session ? <>
-        <div className="focus-intro"><span className="focus-kicker">FOCUS SESSION</span><h1>خذ وقتك، وركّز على سؤال واحد</h1><p>تدريب قصير لممارسة الانتباه والذاكرة. لا يوجد توقيت تنافسي، ويمكنك التفكير بهدوء.</p></div>
+        <div className="focus-intro"><div className="focus-mascot-row" aria-hidden="true"><span className="focus-cloud-shape">☁</span><span className="focus-mascot">🦉</span><span className="focus-star-shape">✦</span></div><span className="focus-kicker">FOCUS SESSION</span><h1>خذ وقتك، وركّز على سؤال واحد</h1><p>تدريب قصير لممارسة الانتباه والذاكرة. لا يوجد توقيت تنافسي، ويمكنك التفكير بهدوء.</p></div>
         <div className="focus-progress-row"><span>السؤال {index + 1} من {questions.length}</span><span>{Math.round(index / questions.length * 100)}% مكتمل</span></div>
         <div className="focus-progress-track"><span style={{ width: `${index / questions.length * 100}%` }} /></div>
         <section className="focus-question-card" aria-live="polite">
           <div className="focus-question-meta"><span>{question.skill}</span><span>المحاولة {Math.min(Math.max(attempts.length, 1), 2)} من 2</span></div>
-          <h2>{question.prompt}</h2><p className="focus-instruction">{question.hint}</p>
+          <div className="focus-question-doodle" aria-hidden="true"><span>✦</span><span>●</span><span>◆</span></div><h2>{question.prompt}</h2><p className="focus-instruction">{question.hint}</p>
           <div className="focus-options">{question.options.map((option) => <button key={option} className="focus-option" onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
           <p className="focus-feedback" role="status">{feedback || "اختر إجابة واحدة عندما تكون مستعداً."}</p>
           {retry && <button className="focus-primary" onClick={() => { answering.current = false; setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
@@ -129,7 +129,7 @@ export default function FocusTestPage() {
         </section>
         <p className="focus-privacy-note">تُحفظ النتائج على هذا الجهاز فقط. المؤشرات للتدريب والمتابعة التعليمية وليست تشخيصاً طبياً.</p>
       </> : <section className="focus-complete-card">
-        <span className="focus-kicker">SESSION COMPLETE</span><div className="focus-complete-mark">✓</div>
+        <span className="focus-kicker">SESSION COMPLETE</span><div className="focus-complete-mascot" aria-hidden="true">🎉 🦉 🎉</div><div className="focus-complete-mark">✓</div>
         <h1>أكملت جلسة التركيز</h1><p>أحسنت. كل محاولة فرصة جديدة للتعلّم.</p>
         <div className="focus-result-grid">
           <div><strong>{session.accuracy}%</strong><span>دقة المحاولة الأولى</span></div>
