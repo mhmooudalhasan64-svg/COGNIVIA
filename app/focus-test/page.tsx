@@ -30,8 +30,15 @@ export default function FocusTestPage() {
   const sessionId = useRef(newSessionId());
   const saved = useRef(false);
   const pendingSession = useRef<FocusSession | null>(null);
+  const answering = useRef(false);
+  const advancing = useRef(false);
   const question = questions[index];
   const attemptNumber = attempts.length + 1;
+
+  useEffect(() => {
+    answering.current = false;
+    advancing.current = false;
+  }, [index]);
 
   useEffect(() => {
     timer.current = performance.now();
@@ -39,7 +46,8 @@ export default function FocusTestPage() {
   }, [index, attempts.length, retry]);
 
   function choose(value: string) {
-    if (locked || retry) return;
+    if (locked || retry || answering.current) return;
+    answering.current = true;
     const attempt = { selectedAnswer: value, isCorrect: value === question.correct, reactionTimeMs: Math.max(0, Math.round(performance.now() - timer.current)), attemptNumber };
     const next = [...attempts, attempt];
     setAttempts(next);
@@ -83,7 +91,8 @@ export default function FocusTestPage() {
   }
 
   function next() {
-    if (!locked) return;
+    if (!locked || advancing.current) return;
+    advancing.current = true;
     const record: FocusAnswer = { questionId: question.id, skill: question.skill, correctAnswer: question.correct, attempts };
     const nextAnswers = [...answers, record];
     setAnswers(nextAnswers);
@@ -96,7 +105,7 @@ export default function FocusTestPage() {
   }
 
   function restart() {
-    setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false);
+    setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false); answering.current = false; advancing.current = false;
     setSession(null); setSaveError(""); saved.current = false; pendingSession.current = null; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
   }
 
@@ -115,7 +124,7 @@ export default function FocusTestPage() {
           <h2>{question.prompt}</h2><p className="focus-instruction">{question.hint}</p>
           <div className="focus-options">{question.options.map((option) => <button key={option} className="focus-option" onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
           <p className="focus-feedback" role="status">{feedback || "اختر إجابة واحدة عندما تكون مستعداً."}</p>
-          {retry && <button className="focus-primary" onClick={() => { setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
+          {retry && <button className="focus-primary" onClick={() => { answering.current = false; setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
           {locked && <button className="focus-primary" onClick={next}>{index === questions.length - 1 ? "إنهاء الجلسة" : "السؤال التالي ←"}</button>}
         </section>
         <p className="focus-privacy-note">تُحفظ النتائج على هذا الجهاز فقط. المؤشرات للتدريب والمتابعة التعليمية وليست تشخيصاً طبياً.</p>
