@@ -115,3 +115,16 @@
   .answer-button,.shape-button,.focus-option,.focus-primary,.primary-button,.hero-button{transition:none}
   .answer-button:hover,.shape-button:hover,.focus-option:not(:disabled):hover,.focus-primary:hover,.primary-button:hover,.hero-button:hover{transform:none}
 }
+
+
+/* Explicit answer-state feedback in the standard activity workspace */
+.answer-button.answer-correct,.shape-button.answer-correct{
+  background:linear-gradient(150deg,#b8f5c9,#4ab879)!important;color:#104b2c!important;
+  border:1px solid #d8ffe2!important;
+  box-shadow:inset 0 2px 4px rgba(255,255,255,.8),0 5px 0 #26764b,0 8px 13px rgba(0,0,0,.18)!important;
+}
+.answer-button.answer-wrong,.shape-button.answer-wrong{
+  background:linear-gradient(150deg,#ffd0cb,#e47b78)!important;color:#702b2a!important;
+  border:1px solid #ffe8e5!important;
+  box-shadow:inset 0 2px 4px rgba(255,255,255,.8),0 5px 0 #984b4a,0 8px 13px rgba(0,0,0,.18)!important;
+}
