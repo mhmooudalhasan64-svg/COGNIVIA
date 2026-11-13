@@ -33,6 +33,7 @@ export default function FocusTestPage() {
   const pendingSession = useRef<FocusSession | null>(null);
   const answering = useRef(false);
   const advancing = useRef(false);
+  const nextRef = useRef<() => void>(() => {});
   const question = questions[index];
   const attemptNumber = attempts.length + 1;
 
@@ -107,6 +108,14 @@ export default function FocusTestPage() {
     setFeedback("");
   }
 
+  nextRef.current = next;
+
+  useEffect(() => {
+    if (!locked || attempts[attempts.length - 1]?.isCorrect !== true) return;
+    const timeoutId = window.setTimeout(() => nextRef.current(), 5000);
+    return () => window.clearTimeout(timeoutId);
+  }, [locked, index, attempts]);
+
   function restart() {
     setIndex(0); setAttempts([]); setAnswers([]); setFeedback(""); setLocked(false); setRetry(false); setSelectedOption(null); answering.current = false; advancing.current = false;
     setSession(null); setSaveError(""); saved.current = false; pendingSession.current = null; startIso.current = new Date().toISOString(); sessionTimer.current = performance.now(); sessionId.current = newSessionId();
@@ -128,7 +137,7 @@ export default function FocusTestPage() {
           <div className="focus-options">{question.options.map((option) => <button key={option} className={`focus-option${selectedOption === option ? (attempts[attempts.length - 1]?.isCorrect ? " focus-option-correct" : " focus-option-wrong") : ""}`} onClick={() => choose(option)} disabled={locked || retry}>{option}</button>)}</div>
           <p className="focus-feedback" role="status">{feedback || "اختر إجابة واحدة عندما تكون مستعداً."}</p>
           {retry && <button className="focus-primary" onClick={() => { answering.current = false; setSelectedOption(null); setRetry(false); setFeedback("محاولة ثانية — ركّز واختر إجابتك."); }}>حاول مرة أخرى</button>}
-          {locked && <button className="focus-primary" onClick={next}>{index === questions.length - 1 ? "إنهاء الجلسة" : "السؤال التالي ←"}</button>}
+          {locked && <button className="focus-primary" onClick={next}>{attempts[attempts.length - 1]?.isCorrect ? (index === questions.length - 1 ? "إنهاء الجلسة الآن" : "السؤال التالي الآن ←") : (index === questions.length - 1 ? "إنهاء الجلسة" : "السؤال التالي ←")}</button>}
         </section>
         <p className="focus-privacy-note">تُحفظ النتائج على هذا الجهاز فقط. المؤشرات للتدريب والمتابعة التعليمية وليست تشخيصاً طبياً.</p>
       </> : <section className="focus-complete-card">
