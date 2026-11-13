@@ -9,8 +9,8 @@ const activities: Activity[] = [
   { id:"focus", title:"التركيز البصري", description:"اكتشف الشكل المختلف وسط مجموعة من الرموز.", icon:"🔎", skill:"الانتباه", level:"سهل", duration:"2 دقائق" },
   { id:"letters", title:"تمييز الحروف", description:"تعرّف إلى الحروف المتشابهة بصرياً.", icon:"🔤", skill:"اللغة", level:"سهل", duration:"3 دقائق" },
   { id:"words", title:"الكلمات والمعاني", description:"اربط المفردة بمعناها أو ضدّها الصحيح.", icon:"🧩", skill:"اللغة", level:"متوسط", duration:"4 دقائق" },
-  { id:"math", title:"الحساب الذهني", description:"حل عمليات حسابية قصيرة خطوة بخطوة.", icon:"➕", skill:"الحساب", level:"سهل", duration:"3 دقائق" },
-  { id:"daily", title:"التحدي اليومي", description:"مهمة يومية قصيرة لتنشيط مهاراتك.", icon:"🌟", skill:"تحديات", level:"متجدد", duration:"5 دقائق" },
+  { id:"math", title:"الحساب الذهني", description:"حل عمليات حسابية قصيرة خطوة بخطوة.", icon:"🧮", skill:"الحساب", level:"سهل", duration:"3 دقائق" },
+  { id:"daily", title:"التحدي اليومي", description:"مهمة يومية قصيرة لتنشيط مهاراتك.", icon:"🏆", skill:"تحديات", level:"متجدد", duration:"5 دقائق" },
 ];
 const categories = ["الكل","الذاكرة","الانتباه","اللغة","الحساب","تحديات"];
 
