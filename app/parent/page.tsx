@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { readPerformanceStore, summarizeFocusSessions, type FocusSession } from "@/lib/focus-performance.mjs";
 
 type Progress = { points?: number; completed?: string[] };
 const activities = [
@@ -15,6 +16,7 @@ const activities = [
 export default function ParentDashboard() {
   const [progress, setProgress] = useState<Progress>({ points: 0, completed: [] });
   const [ready, setReady] = useState(false);
+  const [focusSessions, setFocusSessions] = useState<FocusSession[]>([]);
 
   useEffect(() => {
     try {
@@ -23,11 +25,17 @@ export default function ParentDashboard() {
     } catch {
       setProgress({ points: 0, completed: [] });
     }
+    try {
+      setFocusSessions(readPerformanceStore(window.localStorage).sessions);
+    } catch {
+      setFocusSessions([]);
+    }
     setReady(true);
   }, []);
 
   const completed = useMemo(() => new Set(progress.completed || []), [progress.completed]);
   const percentage = Math.round((completed.size / activities.length) * 100);
+  const focusSummary = useMemo(() => summarizeFocusSessions(focusSessions), [focusSessions]);
 
   return (
     <main className="app-shell" dir="rtl">
@@ -52,6 +60,33 @@ export default function ParentDashboard() {
               <article className="parent-metric"><span>إجمالي النقاط</span><strong>{progress.points || 0}</strong><small>نقطة تعليمية</small></article>
               <article className="parent-metric"><span>الأنشطة المكتملة</span><strong>{completed.size}</strong><small>من أصل {activities.length} أنشطة</small></article>
               <article className="parent-metric"><span>معدل الإنجاز</span><strong>{percentage}%</strong><small>من الأنشطة المتاحة</small></article>
+            </section>
+
+            <section className="parent-panel focus-parent-panel">
+              <div className="parent-section-head">
+                <div><div className="eyebrow">FOCUS TRAINING ANALYTICS</div><h2>تحليل وضع التركيز</h2></div>
+                <a className="focus-parent-open" href="/focus-test/">بدء تدريب جديد ←</a>
+              </div>
+              <div className="focus-parent-metrics">
+                <article><strong>{focusSummary.sessionCount}</strong><span>جلسات مكتملة</span></article>
+                <article><strong>{focusSummary.questionCount}</strong><span>أسئلة تمت الإجابة عنها</span></article>
+                <article><strong>{focusSummary.accuracy}%</strong><span>دقة المحاولة الأولى</span></article>
+                <article><strong>{(focusSummary.averageReactionTimeMs / 1000).toFixed(1)} ث</strong><span>متوسط زمن الاستجابة الأولى</span></article>
+              </div>
+              {focusSessions.length === 0 ? (
+                <p className="focus-parent-empty">لا توجد جلسات تركيز محفوظة بعد. عند إكمال أول جلسة ستظهر نتائجها هنا.</p>
+              ) : (
+                <div className="focus-session-list">
+                  {[...focusSessions].slice(-5).reverse().map((session) => (
+                    <div className="focus-session-row" key={session.id}>
+                      <span>{new Date(session.completedAt).toLocaleString("ar-SY", { dateStyle: "medium", timeStyle: "short" })}</span>
+                      <strong>{session.accuracy}%</strong>
+                      <small>{session.correctFirstTry}/{session.questionCount} من أول محاولة</small>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="focus-parent-disclaimer">هذه مؤشرات تدريبية وصفية محفوظة على هذا الجهاز، ولا تُستخدم لتشخيص اضطراب الانتباه أو أي حالة طبية.</p>
             </section>
 
             <section className="parent-panel">
@@ -94,6 +129,11 @@ export default function ParentDashboard() {
         .parent-activity-name{flex:1}.parent-activity-name strong,.parent-activity-name small{display:block}.parent-activity-name strong{font-size:12px}.parent-activity-name small{font-size:10px;color:#8ea9bf;margin-top:4px}
         .parent-status{font-size:10px;color:#91aabe}.parent-status.done{color:#70dfb2}
         .parent-note{margin-top:16px}.parent-note strong{font-size:12px;color:#cfe8f7}.parent-note p{font-size:11px;color:#8ea9bf;line-height:1.9;margin:8px 0 0}
+
+        .focus-parent-panel{margin:20px 0}.focus-parent-open{font-size:10px;color:#8bdfff;text-decoration:none;border:1px solid rgba(80,215,255,.2);padding:8px 11px;border-radius:7px;white-space:nowrap}
+        .focus-parent-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.focus-parent-metrics article{padding:14px;border:1px solid rgba(130,190,224,.12);border-radius:9px;background:rgba(5,22,37,.35)}.focus-parent-metrics strong,.focus-parent-metrics span{display:block}.focus-parent-metrics strong{font-size:22px;color:#e8f8ff}.focus-parent-metrics span{font-size:9px;color:#8ea9bf;margin-top:5px}
+        .focus-parent-empty,.focus-parent-disclaimer{font-size:10px;line-height:1.8;color:#8ea9bf}.focus-parent-disclaimer{margin:15px 0 0}.focus-session-list{margin-top:14px}.focus-session-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid rgba(130,190,224,.1);font-size:10px;color:#91aabe}.focus-session-row strong{margin-right:auto;color:#8bdfff;font-size:13px}.focus-session-row small{color:#8ea9bf}
+        @media(max-width:600px){.focus-parent-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.focus-parent-open{font-size:9px;padding:7px}.focus-session-row{flex-wrap:wrap}.focus-session-row small{width:100%}}
         @media(max-width:600px){.parent-metrics{grid-template-columns:1fr}.parent-hero{padding:22px}.parent-hero h1{font-size:22px}.topbar{gap:8px}.parent-back{white-space:nowrap;font-size:10px;padding:8px}}
       `}</style>
     </main>
